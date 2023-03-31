@@ -4,4 +4,4 @@ networks:
   default: polygon-testnet
 
 account-keys:
-  private-key: ${ACCOUNT_PRIVATE_KEY}
+  private-key: ${ACCOUNT_PRIVATE_KEY} # ${} will get from .env file.
