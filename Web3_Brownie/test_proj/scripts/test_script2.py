@@ -1,3 +1,4 @@
+### This example is for scripting on Ganache ------
 from brownie import Storage1 , accounts 
 
 def main(): 

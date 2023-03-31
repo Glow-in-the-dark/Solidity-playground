@@ -1,0 +1,7 @@
+dotenv: .env
+
+networks:
+  default: polygon-testnet
+
+account-keys:
+  private-key: ${ACCOUNT_PRIVATE_KEY}
