@@ -7,7 +7,7 @@ reports:
 dotenv: .env
 
 networks:
-  default: polygon-testnet
+  default: polygon-test
 
 account-keys:
   private-key: ${ACCOUNT_PRIVATE_KEY} # ${} will get from .env file.
