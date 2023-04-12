@@ -10,7 +10,18 @@ async function main() {
   // This is where we connect to different blockchain/ RPC.
   const provider = new ethers.providers.JsonRpcProvider(process.env.RPC_URL);
   // This gives us a wallet with a private key, to interact with the chain.
-  const wallet = new ethers.Wallet(process.env.PRIVATE_KEY, provider);
+  // Method 1 ( Direct from .env ) ------------------
+  //   const wallet = new ethers.Wallet(process.env.PRIVATE_KEY, provider);
+  // ------------------------------------------------
+
+  // Method 2 ( decrypt from encryptedKey.Json) -------------
+  const encryptedJson = fs.readFileSync("./.encryptedKey.json", "utf8");
+  let wallet = new ethers.Wallet.fromEncryptedJsonSync( //Decrypt to get private key.
+    encryptedJson,
+    process.env.PRIVATE_KEY_PASSWORD
+  );
+  wallet = await wallet.connect(provider); //wallet needs RPC details too
+  // --------------------------------------------------------
 
   // In order to deploy, we need both the ABI and the Binary compile code. and to read these two files, we need to import the fs(filesystem) module. if don't have, just >> yarn add fs-extra
   const abi = fs.readFileSync("./SimpleStorage_sol_SimpleStorage.abi", "utf8");

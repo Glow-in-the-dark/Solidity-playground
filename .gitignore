@@ -43,10 +43,11 @@ Thumbs.db
 ##############
 *.swp
 
-# Node/npm #
+# Node/npm/encryptedKeys #
 ##############
 node_modules
 .env
+.encryptedKey.json
 
 # Sass #
 ##############
