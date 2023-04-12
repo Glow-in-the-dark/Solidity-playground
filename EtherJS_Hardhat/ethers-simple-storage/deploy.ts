@@ -1,6 +1,10 @@
-const ethers = require("ethers");
-const fs = require("fs-extra");
-require("dotenv").config();
+// const ethers = require("ethers");
+// const fs = require("fs-extra");
+// require("dotenv").config();
+
+import { ethers } from "ethers";
+import * as fs from "fs-extra";
+import "dotenv/config";
 
 async function main() {
   // compile them in this code
@@ -9,10 +13,10 @@ async function main() {
   // https://sepolia.infura.io/v3/ (sepolia testnet)
 
   // This is where we connect to different blockchain/ RPC.
-  const provider = new ethers.providers.JsonRpcProvider(process.env.RPC_URL);
+  const provider = new ethers.providers.JsonRpcProvider(process.env.RPC_URL!);
   // This gives us a wallet with a private key, to interact with the chain.
   // Method 1 ( Direct from .env ) ------------------
-  const wallet = new ethers.Wallet(process.env.PRIVATE_KEY, provider);
+  const wallet = new ethers.Wallet(process.env.PRIVATE_KEY!, provider);
   // ------------------------------------------------
 
   //   // Method 2 ( decrypt from encryptedKey.Json) -------------
