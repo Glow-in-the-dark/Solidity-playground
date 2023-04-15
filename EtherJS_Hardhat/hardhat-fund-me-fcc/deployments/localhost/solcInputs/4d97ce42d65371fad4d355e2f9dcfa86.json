@@ -1,0 +1,41 @@
+{
+  "language": "Solidity",
+  "sources": {
+    "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol": {
+      "content": "// SPDX-License-Identifier: MIT\npragma solidity ^0.8.0;\n\ninterface AggregatorV3Interface {\n  function decimals() external view returns (uint8);\n\n  function description() external view returns (string memory);\n\n  function version() external view returns (uint256);\n\n  function getRoundData(uint80 _roundId)\n    external\n    view\n    returns (\n      uint80 roundId,\n      int256 answer,\n      uint256 startedAt,\n      uint256 updatedAt,\n      uint80 answeredInRound\n    );\n\n  function latestRoundData()\n    external\n    view\n    returns (\n      uint80 roundId,\n      int256 answer,\n      uint256 startedAt,\n      uint256 updatedAt,\n      uint80 answeredInRound\n    );\n}\n"
+    },
+    "contracts/FundMe.sol": {
+      "content": "// SPDX-License-Identifier: MIT\npragma solidity ^0.8.8;\n\nimport \"./PriceConverter.sol\"; // import library\n\nerror NotOwner();\n\ncontract FundMe {\n    using PriceConverter for uint256; // declare library for dataType.\n\n    uint256 public constant MINIMUM_USD = 50 * 1e18; // * 1e18 cuz require statement we are comparing with eth in \"wei\".\n\n    address[] public funders;\n    mapping(address => uint256)public addressToAmountFunded;\n\n    address public immutable i_owner;\n\n    AggregatorV3Interface public priceFeed;\n\n    constructor(address priceFeedAddress){\n        i_owner = msg.sender; // so the owner will be the person deploying this contract\n        priceFeed = AggregatorV3Interface(priceFeedAddress);\n    }\n\n\n    function fund() public payable {\n    // want to be able to set a minimum fund amt in USD\n    // 1. How to we send ETH to this address\n    require ( msg.value.getConversionRate(priceFeed) >= MINIMUM_USD, \"didn't send enough\"); // means if they send, it will have to me more than 1ETH.data, else it will revert.\n    funders.push(msg.sender);\n    addressToAmountFunded[msg.sender] += msg.value;\n    }\n\n    function withdraw() public onlyOwner {\n\n        // to do checks for owner, we can do this: ( but in this case, we use modifier, so we don't need to copy and paste all of these code)\n        // require(msg.sender == owner); //check to make sure if it is called by owner.\n\n        for (uint256 i = 0; i < funders.length; i++){\n            address funder = funders[i];\n            addressToAmountFunded[funder] = 0;\n        }\n        //reset array\n        funders = new address[](0); // (0) means starting with 0 element inside\n        \n        // // Withdraw the funds ( 3 different ways ) \n        // // 1. Transfer \n        // payable(msg.sender).transfer(address(this).balance);\n\n        // // 2. Send \n        // // payable(msg.sender).send(address(this).balance); // if it is just like this, if it fails, it will not revert, and won't get money sent.\n        // // therefore we need to use require to revert here.\n        // bool sendSuccess = payable(msg.sender).send(address(this).balance);\n        // require(sendSuccess,\"Send Failed\");\n\n        // 3. Call (most powerful, can call any function even without ABI)\n        // call method return 2 values!\n        // (bool callSuccess, bytes memory dataReturned ) = payable(msg.sender).call{value: address(this).balance}(\"\");\n        // but since we are not calling any function, and don't need the dataReturned, we can just do this\n        (bool callSuccess, ) = payable(msg.sender).call{value: address(this).balance}(\"\");\n        require(callSuccess, \"Call failed\"); \n    }\n\n    // modifier onlyOwner {\n    //     require(msg.sender == i_owner, \"Sender is not Owner!\");\n    //     _; // This _; means run require the top code first (in this case, is the require statement), then the remaining code.\n        \n    //     // if it is:\n    //     // \n    //     // _;\n    //     // require(msg.sender == owner, \"Sender is not Owner!\");\n\n    //     // then it means runs the func() code first, then run the \"require\" statement. (which in this case is not efficient.)\n    // }\n\n    modifier onlyOwner {\n        if(msg.sender != i_owner) {revert NotOwner();}\n        _;\n    }\n\n    // But what if someone send this contract ETH without calling the \"fund\" function, then it is not recorded, and we cannot credit and keep track of them ? \n    // But there is a where such that when people \"send\" money, or people call a function that doesn't exist, for us to trigger some code.\n    // 1. recieve()\n    // 2. fallback()\n    \n    receive() external payable {\n        fund();\n    }\n    fallback() external payable {\n        fund();\n    }\n\n    // In this case, if ppl send $$ without using the fund() function, the recieve and fallback function will still trigger can automatically call the fund() function.\n}"
+    },
+    "contracts/PriceConverter.sol": {
+      "content": "// SPDX-License-Identifier: MIT\npragma solidity ^0.8.8;\n\nimport \"@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol\"; //import directly from Github, //remix knows that @chainlink/contracts referrs to the NPM package \"@chainlink/contracts\"\n\nlibrary PriceConverter {\n\n    function getPrice(AggregatorV3Interface priceFeed) internal view returns(uint256) {  \n    \n        // (uint80 roundId, int price, uint startedAt, uint timestamp, uint answeredInRound) = priceFeed.latestRoundData();\n        (,int256 price,,, ) = priceFeed.latestRoundData();\n        // Eth price given in terms of USD (8 decimals )\n        // uint256 decimals = priceFeed.decimals();\n        //since wei is 1e18, and decimals is \"8\" we need to * 1e10.\n        return uint256(price * 1e10);\n    }\n\n  \n    function getConversionRate(uint256 ethAmount, AggregatorV3Interface priceFeed) internal view returns (uint256) {\n        uint256 ethPrice = getPrice(priceFeed);\n        uint256 ethAmountInUsd = (ethPrice * ethAmount)/1e18;\n        return ethAmountInUsd;\n    }\n \n}"
+    }
+  },
+  "settings": {
+    "optimizer": {
+      "enabled": false,
+      "runs": 200
+    },
+    "outputSelection": {
+      "*": {
+        "*": [
+          "abi",
+          "evm.bytecode",
+          "evm.deployedBytecode",
+          "evm.methodIdentifiers",
+          "metadata",
+          "devdoc",
+          "userdoc",
+          "storageLayout",
+          "evm.gasEstimates"
+        ],
+        "": [
+          "ast"
+        ]
+      }
+    },
+    "metadata": {
+      "useLiteralContent": true
+    }
+  }
+}
