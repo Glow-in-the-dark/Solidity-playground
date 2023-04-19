@@ -33,6 +33,13 @@ module.exports = {
   etherscan: {
     apiKey: process.env.ETHERSCAN_API_KEY,
   },
+  gasReporter: {
+    enabled: true,
+    currency: "USD",
+    outputFile: "gas-report.txt",
+    noColors: true,
+    // coinmarketcap: COINMARKETCAP_API_KEY,
+  },
   namedAccounts: {
     deployer: {
       default: 0, // the accounts[0] index will be deployer
