@@ -1,5 +1,7 @@
 require("@nomicfoundation/hardhat-toolbox");
 require("hardhat-deploy");
+require("hardhat-gas-reporter");
+require("solidity-coverage");
 require("dotenv").config();
 
 const SEPOLIA_RPC_URL = process.env.SEPOLIA_RPC_URL;
@@ -38,7 +40,8 @@ module.exports = {
     currency: "USD",
     outputFile: "gas-report.txt",
     noColors: true,
-    // coinmarketcap: COINMARKETCAP_API_KEY,
+    coinmarketcap: CMC_API_KEY,
+    // token: "MATIC",
   },
   namedAccounts: {
     deployer: {
