@@ -27,14 +27,14 @@ contract FundMe {
 
     // modifier onlyOwner {
     //     require(msg.sender == i_owner, "Sender is not Owner!");
-    //     _; // This _; means run require the top code first (in this case, is the require statement), then the remaining code.
+    //     _; // This _; means run the top code("require" statement) first , then the remaining code.
         
     //     // if it is:
     //     // 
     //     // _;
     //     // require(msg.sender == owner, "Sender is not Owner!");
 
-    //     // then it means runs the func() code first, then run the "require" statement. (which in this case is not efficient.)
+    //     // then it means runs the func() code first, then run the "require" statement. (not efficient.)
     // }
 
     modifier onlyOwner {
@@ -57,8 +57,11 @@ contract FundMe {
         s_priceFeed = AggregatorV3Interface(s_priceFeedAddress);
     }
 
-    // But what if someone send this contract ETH without calling the "fund" function, then it is not recorded, and we cannot credit and keep track of them ? 
-    // But there is a where such that when people "send" money, or people call a function that doesn't exist, for us to trigger some code.
+    /* What if someone send this contract ETH without calling the "fund" function, then it is not recorded,
+    then we cannot credit and keep track of them ? 
+    
+    But there is a way such that when people "send" money, 
+    or people call a function that doesn't exist, for us to trigger some code. */
     // 1. recieve()
     // 2. fallback()
     
@@ -69,7 +72,8 @@ contract FundMe {
         fund();
     }
 
-    // In this case, if ppl send $$ without using the fund() function, the recieve and fallback function will still trigger can automatically call the fund() function.
+    // In this case, if ppl send $$ without using the fund() function, 
+    // the recieve and fallback function will still trigger can automatically call the fund() function.
 
     function fund() public payable {
     // want to be able to set a minimum fund amt in USD
@@ -81,7 +85,8 @@ contract FundMe {
 
     function withdraw() public payable onlyOwner {
 
-        // to do checks for owner, we can do this: ( but in this case, we use modifier, so we don't need to copy and paste all of these code)
+        // to do checks for owner, we can do this: 
+        // ( but in this case, we use modifier, so we don't need to copy and paste all of these code)
         // require(msg.sender == owner); //check to make sure if it is called by owner.
 
         for (uint256 i = 0; i < s_funders.length; i++){
