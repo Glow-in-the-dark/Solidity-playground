@@ -1,5 +1,9 @@
 const { network } = require("hardhat");
-const { developmentChains } = require("../helper-hardhat-config");
+//const { ethers } = require("hardhat");
+const {
+  networkConfig,
+  developmentChains,
+} = require("../helper-hardhat-config");
 const { verify } = require("../helper-hardhat-config");
 
 const VRF_SUB_FUND_AMOUNT = ethers.utils.parseEther("2");
@@ -16,9 +20,8 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
     );
     vrfCoordinatorV2Address = vrfCoordinatorV2Mock.address;
     /* create a subscriptionId via Mock contract, on local Hardhat network. */
-    const transactionResponse =
-      await vrfCoordinationV2Mock.createSubscription();
-    const transactionReciept = await transactionResponse.wait(1); //In this Reciept is where we can get the "subscriptionId"
+    const transactionResponse = await vrfCoordinatorV2Mock.createSubscription();
+    const transactionReceipt = await transactionResponse.wait(1); //In this Reciept is where we can get the "subscriptionId"
     subscriptionId = transactionReceipt.events[0].args.subId; // Since it will emit the s_currentSubId, we can get from the events.
     // Fund the subscription (usually u'll need the LINK token on the real network to fund it)
     // But for this mock, we don't need to send LINK, can just set an amount.
@@ -32,7 +35,7 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
     subscriptionId = networkConfig[chainId]["subscriptionId"]; // In this case, we hardcoded it because we use the website UIUX to get it, but we can automate it like above too.
   }
 
-  const entranceFee = networkingConfig[chainId]["entranceFee"];
+  const entranceFee = networkConfig[chainId]["entranceFee"];
   const gasLane = networkConfig[chainId]["gasLane"];
   const callbackGasLimit = networkConfig[chainId]["callbackGasLimit"];
   const interval = networkConfig[chainId]["interval"];
