@@ -25,6 +25,9 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
     subscriptionId = transactionReceipt.events[0].args.subId; // Since it will emit the s_currentSubId, we can get from the events.
     // Fund the subscription (usually u'll need the LINK token on the real network to fund it)
     // But for this mock, we don't need to send LINK, can just set an amount.
+    console.log(transactionResponse);
+    console.log("print transactionReceipt:", transactionReceipt);
+
     await vrfCoordinatorV2Mock.fundSubscription(
       subscriptionId,
       VRF_SUB_FUND_AMOUNT
@@ -54,7 +57,7 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
     waitConfirmations: network.config.blockConfirmations || 1,
   });
 
-  // Check if it is on a localhost devchain && have a etherscan_api_key, and if it is not, verify.
+  // Check if it is on a localhost devchain && have a etherscan_api_key, and if it is not, verify it on etherscan.
   if (
     !developmentChains.includes(network.name) &&
     process.env.ETHERSCAN_API_KEY
