@@ -28,6 +28,15 @@ module.exports = {
       accounts: [PRIVATE_KEY, USER1_PK],
     },
   },
+  // can comment out this gasReporter part if we want to see the gasEstimates
+  gasReporter: {
+    enabled: false,
+    currency: "USD",
+    outputFile: "gas-report.txt",
+    noColors: true,
+    coinmarketcap: CMC_API_KEY,
+    // token: "MATIC",
+  },
   solidity: "0.8.18",
   namedAccounts: {
     deployer: {

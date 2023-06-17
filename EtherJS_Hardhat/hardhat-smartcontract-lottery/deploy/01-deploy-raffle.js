@@ -25,8 +25,9 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
     subscriptionId = transactionReceipt.events[0].args.subId; // Since it will emit the s_currentSubId, we can get from the events.
     // Fund the subscription (usually u'll need the LINK token on the real network to fund it)
     // But for this mock, we don't need to send LINK, can just set an amount.
-    console.log(transactionResponse);
-    console.log("print transactionReceipt:", transactionReceipt);
+    //// console.log to check on details.
+    //console.log(transactionResponse);
+    //console.log("print transactionReceipt:", transactionReceipt);
 
     await vrfCoordinatorV2Mock.fundSubscription(
       subscriptionId,

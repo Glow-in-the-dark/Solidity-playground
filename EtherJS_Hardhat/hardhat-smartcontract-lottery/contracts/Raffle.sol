@@ -69,8 +69,12 @@ contract Raffle is VRFConsumerBaseV2, KeeperCompatibleInterface {
 
     function enterRaffle() public payable {
         // require (msg.value > i_entranceFee, "Not enough ETH!") //Not as GAS efficient, because there is "string"
-        if(msg.value < i_entranceFee){revert Raffle__NotEnoughETHEntered();} //More GAS efficient
-        if(s_raffleState != RaffleState.OPEN){revert Raffle__NotOpen();}
+        if(msg.value < i_entranceFee){
+            revert Raffle__NotEnoughETHEntered(); //More GAS efficient
+            } 
+        if(s_raffleState != RaffleState.OPEN){
+            revert Raffle__NotOpen();
+            }
         s_players.push(payable (msg.sender));
         // EVENTS (whenever we update a dynamic object like arrays or mapping, we always want to emit an event. )
         // Named events with function name reverse.
@@ -162,7 +166,11 @@ contract Raffle is VRFConsumerBaseV2, KeeperCompatibleInterface {
         return s_lastTimeStamp;
     }
 
-        function getRequestConfirmations()  public pure returns(uint256) { // Pure because variable stored as constant
+    function getRequestConfirmations()  public pure returns(uint256) { // Pure because variable stored as constant
         return REQUEST_CONFIRMATIONS;
+    }
+
+    function getInterval() public view returns(uint256){
+        return i_interval;
     }
 }
