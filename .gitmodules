@@ -1,0 +1,3 @@
+[submodule "EtherJS_Foundry/foundry-simple-storage/lib/forge-std"]
+	path = EtherJS_Foundry/foundry-simple-storage/lib/forge-std
+	url = https://github.com/foundry-rs/forge-std
