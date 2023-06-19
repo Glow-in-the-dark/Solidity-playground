@@ -14,6 +14,7 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
   const chainId = network.config.chainId;
   let vrfCoordinatorV2Address, subscriptionId;
 
+  // If it is a local testnet... assign the "vrfCoordinatorV2Address", via using the MOCK.
   if (developmentChains.includes(network.name)) {
     const vrfCoordinatorV2Mock = await ethers.getContract(
       "VRFCoordinatorV2Mock"
@@ -34,11 +35,12 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
       VRF_SUB_FUND_AMOUNT
     );
   } else {
-    // else if it is live Testnet's network instead,
+    // else if it is live Testnet's network instead, use the address & subscription ID provided by
     vrfCoordinatorV2Address = networkConfig[chainId]["vrfCoordinatorV2"];
     subscriptionId = networkConfig[chainId]["subscriptionId"]; // In this case, we hardcoded it because we use the website UIUX to get it, but we can automate it like above too.
   }
 
+  // continue to assign the rest of the constructor...
   const entranceFee = networkConfig[chainId]["entranceFee"];
   const gasLane = networkConfig[chainId]["gasLane"];
   const callbackGasLimit = networkConfig[chainId]["callbackGasLimit"];
@@ -58,6 +60,15 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
     waitConfirmations: network.config.blockConfirmations || 1,
   });
 
+  // Ensure the Raffle contract is a valid consumer of the VRFCoordinatorV2Mock contract.
+  if (developmentChains.includes(network.name)) {
+    const vrfCoordinatorV2Mock = await ethers.getContract(
+      "VRFCoordinatorV2Mock"
+    );
+    await vrfCoordinatorV2Mock.addConsumer(subscriptionId, raffle.address);
+  }
+
+  // Automated verification of Contract on etherscan
   // Check if it is on a localhost devchain && have a etherscan_api_key, and if it is not, verify it on etherscan.
   if (
     !developmentChains.includes(network.name) &&
