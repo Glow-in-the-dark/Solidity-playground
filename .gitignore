@@ -127,3 +127,7 @@ yarn-debug.log*
 .idea/
 .vscode/
 *.code-workspace
+
+#ignore "broadcast/" for foundry section
+broadcast/
+lib/
