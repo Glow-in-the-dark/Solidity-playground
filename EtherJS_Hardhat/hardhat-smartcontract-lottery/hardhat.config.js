@@ -28,6 +28,12 @@ module.exports = {
       accounts: [PRIVATE_KEY, USER1_PK],
     },
   },
+  etherscan: {
+    // yarn hardhat verify --network <NETWORK> <CONTRACT_ADDRESS> <CONSTRUCTOR_PARAMETERS>
+    apiKey: {
+      sepolia: ETHERSCAN_API_KEY,
+    },
+  },
   // can comment out this gasReporter part if we want to see the gasEstimates
   gasReporter: {
     enabled: false,
@@ -45,5 +51,8 @@ module.exports = {
     player: {
       default: 1,
     },
+  },
+  mocha: {
+    timeout: 300000, // 300 sec
   },
 };

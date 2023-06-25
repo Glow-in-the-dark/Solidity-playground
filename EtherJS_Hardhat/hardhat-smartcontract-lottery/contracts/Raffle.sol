@@ -16,7 +16,7 @@ import "@chainlink/contracts/src/v0.8/interfaces/KeeperCompatibleInterface.sol";
 error Raffle__NotEnoughETHEntered();
 error Raffle__TransferFailed();
 error Raffle__NotOpen();
-error Raffle__UpKeepNotNeeded(uint256 currentBalance, uint256 numPlayers , uint256 raffleState);
+error Raffle__UpkeepNotNeeded(uint256 currentBalance, uint256 numPlayers , uint256 raffleState);
 
 contract Raffle is VRFConsumerBaseV2, KeeperCompatibleInterface {
     /* Type declarations */
@@ -107,7 +107,7 @@ contract Raffle is VRFConsumerBaseV2, KeeperCompatibleInterface {
         // Will revert if subscription is not set and funded.
         (bool upkeepNeeded, ) = checkUpkeep("");
         if (!upkeepNeeded) {
-            revert Raffle__UpKeepNotNeeded(address(this).balance, s_players.length, uint256(s_raffleState));
+            revert Raffle__UpkeepNotNeeded(address(this).balance, s_players.length, uint256(s_raffleState));
         }
         s_raffleState = RaffleState.CALCULATING;
         uint256 requestId = i_vrfCoordinator.requestRandomWords( // we call the requestRandomWords() method from the interface.
@@ -117,6 +117,7 @@ contract Raffle is VRFConsumerBaseV2, KeeperCompatibleInterface {
             i_callbackGasLimit,
             NUM_WORDS // how many random numbers we want to get
         );
+        // this emit below actually is redundant, Cuz "VRFcoordinatorv2Mock" also emits an event, RandomWordsRequested(), which the second parameter is the requestId.
         emit RequestedRaffleWinner(requestId);
     }
 

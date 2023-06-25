@@ -4,3 +4,6 @@
 [submodule "EtherJS_Foundry/foundry-simple-storage/lib/foundry-devops"]
 	path = EtherJS_Foundry/foundry-simple-storage/lib/foundry-devops
 	url = https://github.com/ChainAccelOrg/foundry-devops
+[submodule "EtherJS_Foundry/foundry-fund-me/lib/chainlink-brownie-contracts"]
+	path = EtherJS_Foundry/foundry-fund-me/lib/chainlink-brownie-contracts
+	url = https://github.com/smartcontractkit/chainlink-brownie-contracts
