@@ -134,7 +134,7 @@ cache
 deployments
 coverage
 coverage.json
-typechain
+typechain-types
 
 #ignore "broadcast/" for foundry section
 broadcast/
