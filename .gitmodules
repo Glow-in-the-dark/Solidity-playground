@@ -10,3 +10,9 @@
 [submodule "EtherJS_Foundry/foundry-ERC20/lib/openzeppelin-contracts"]
 	path = EtherJS_Foundry/foundry-ERC20/lib/openzeppelin-contracts
 	url = https://github.com/OpenZeppelin/openzeppelin-contracts
+[submodule "EtherJS_Foundry/NFT/lib/openzeppelin-contracts"]
+	path = EtherJS_Foundry/NFT/lib/openzeppelin-contracts
+	url = https://github.com/OpenZeppelin/openzeppelin-contracts
+[submodule "EtherJS_Foundry/NFT/lib/foundry-devops"]
+	path = EtherJS_Foundry/NFT/lib/foundry-devops
+	url = https://github.com/ChainAccelOrg/foundry-devops
