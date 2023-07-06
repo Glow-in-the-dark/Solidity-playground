@@ -1,6 +1,6 @@
 -include .env
 
-.PHONY: all test clean deploy fund help install snapshot format anvil 
+.PHONY: all test clean deploy fund help install snapshot format anvil deployMood flipMoodNft
 
 DEFAULT_ANVIL_KEY := 0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80
 
@@ -45,12 +45,21 @@ deploy:
 mint:
 	@forge script script/Interactions.s.sol:MintBasicNft $(NETWORK_ARGS)
 
-# deployMood:
-# 	@forge script script/DeployMoodNft.s.sol:DeployMoodNft $(NETWORK_ARGS)
+deployMood:
+	@forge script script/DeployMoodNft.s.sol:DeployMoodNft $(NETWORK_ARGS)
 
+### IF WE CAN'T RUN THE MAKE CMD's, just use back the original command below, rather than using MAKE file's command.
+# we shortcut, use cast to mint one, on the contract we deployed on ANVIL chain.
+# if we want to do it on SEPOLIA, use the sepolia's private key, and sepolia's RPC, also remember to do --boradcast
+mintMood:
+	cast send 0x5FbDB2315678afecb367f032d93F642f64180aa3 "mintNft()" --private-key ac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80 --rpc-url http://localhost:8545
+
+# #script for minting the moodNft. remember to add on top, at .PHONY
 # mintMoodNft:
-# 	@forge script script/Interactions.s.sol:MintMoodNft $(NETWORK_ARGS)
+#  	@forge script script/Interactions.s.sol:MintMoodNft $(NETWORK_ARGS)
 
-# flipMoodNft:
-# 	@forge script script/Interactions.s.sol:FlipMoodNft $(NETWORK_ARGS)
+# #script for flipping the moodNft remember to add on top, at .PHONY
+flipMoodNft:
+	cast send 0x5FbDB2315678afecb367f032d93F642f64180aa3 "flipMood(uint256)" 0 --private-key ac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80 --rpc-url http://localhost:8545
+#  	@forge script script/Interactions.s.sol:FlipMoodNft $(NETWORK_ARGS)
 

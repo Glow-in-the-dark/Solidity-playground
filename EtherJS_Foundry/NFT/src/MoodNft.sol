@@ -23,7 +23,7 @@ contract MoodNft is ERC721 {
     constructor(
         string memory sadSvgImageUri, // note it's image URI, not tokenURI, which is the JSON metadata
         string memory happySvgImageUri
-    ) ERC721("Mood Nft","MN"){
+    ) ERC721("Mood NFT","MN"){
         s_tokenCounter = 0;
         s_sadSvgImageUri =  sadSvgImageUri;
         s_happySvgImageUri = happySvgImageUri;
@@ -71,9 +71,10 @@ contract MoodNft is ERC721 {
                         // It is only after we convert it into bytes, then we can make it into Base64, using Base64.encode()
                         bytes( //turn it into bytes
                             abi.encodePacked(
-                                '{"name: "',
+                                '{"name":"',
                                 name(),
-                                '", "description": "NFT that reflects owners mood.", "attributes":[{"trait_type":"moodiness", "value":100}],"image": "', 
+                                 '", "description":"An NFT that reflects the mood of the owner, 100% on Chain!", ',
+                                '"attributes": [{"trait_type": "moodiness", "value": 100}], "image":"',
                                 imageURI,
                                 '"}'
                             )
