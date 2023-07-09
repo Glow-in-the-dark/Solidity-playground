@@ -19,3 +19,6 @@
 [submodule "EtherJS_Foundry/DEFI-Stablecoins/lib/openzeppelin-contracts"]
 	path = EtherJS_Foundry/DEFI-Stablecoins/lib/openzeppelin-contracts
 	url = https://github.com/openzeppelin/openzeppelin-contracts
+[submodule "EtherJS_Foundry/DEFI-Stablecoins/EtherJS_Foundry/DEFI-Stablecoins/lib/chainlink-brownie-contracts"]
+	path = EtherJS_Foundry/DEFI-Stablecoins/EtherJS_Foundry/DEFI-Stablecoins/lib/chainlink-brownie-contracts
+	url = https://github.com/smartcontractkit/chainlink-brownie-contracts.git
