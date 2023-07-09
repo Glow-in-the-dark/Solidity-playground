@@ -16,3 +16,6 @@
 [submodule "EtherJS_Foundry/NFT/lib/foundry-devops"]
 	path = EtherJS_Foundry/NFT/lib/foundry-devops
 	url = https://github.com/ChainAccelOrg/foundry-devops
+[submodule "EtherJS_Foundry/DEFI-Stablecoins/lib/openzeppelin-contracts"]
+	path = EtherJS_Foundry/DEFI-Stablecoins/lib/openzeppelin-contracts
+	url = https://github.com/openzeppelin/openzeppelin-contracts
