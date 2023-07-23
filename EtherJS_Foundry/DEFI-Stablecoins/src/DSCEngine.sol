@@ -301,8 +301,21 @@ contract DSCEngine is ReentrancyGuard{
         // $100 ETH / 10 DSC
         // $100(ETH) * 50 = $5,000; 5,000 / 100 = 50 (adjusted collateral)
         // $50/$10 = 5
+        /* // this part no need , can replace with the _calculateHealthFactor()
         uint256 collateralAdjustedForTheshold = (collateralValueInUsd * LIQUIDATION_THRESHOLD) / LIQUIDATION_PRECISION; 
         return (collateralAdjustedForTheshold * PRECISION) / totalDscMinted;
+        */
+        return _calculateHealthFactor(totalDscMinted, collateralValueInUsd);
+    }
+
+    function _calculateHealthFactor(uint256 totalDscMinted, uint256 collateralValueInUsd)
+        internal
+        pure
+        returns (uint256)
+    {
+        if (totalDscMinted == 0) return type(uint256).max;
+        uint256 collateralAdjustedForThreshold = (collateralValueInUsd * LIQUIDATION_THRESHOLD) / LIQUIDATION_PRECISION;
+        return (collateralAdjustedForThreshold * PRECISION) / totalDscMinted;
     }
 
     function _revertIfHealthFactorIsBroken(address user) internal view {
@@ -325,7 +338,6 @@ contract DSCEngine is ReentrancyGuard{
         (, int256 price,,,) = priceFeed.latestRoundData();
         // The returned value from Chainlink will be 2000 * 1e8
         return (usdAmountInWei * PRECISION) / (uint256(price)* ADDITIONAL_FEED_PRECISION);
-
     }
 
     function getAccountCollateralValue(address user) public view returns(uint256 totalCollateralValueInUsd){
@@ -346,6 +358,30 @@ contract DSCEngine is ReentrancyGuard{
         // The return value will be 1000 * 1e8
         // And since the amount unit precision is in 1e18 , we need to recalibrate it
         return ((uint256(price)*ADDITIONAL_FEED_PRECISION)* amount) / PRECISION;
+    }
+
+    function getAccountInformation(address user)
+        external 
+        view 
+        returns (uint256 totalDscMinted, uint256 collateralValueInUsd) 
+    {
+        (totalDscMinted, collateralValueInUsd) = _getAccountInformation(user);
+    }
+
+    function getPrecision() external pure returns (uint256) {
+        return PRECISION;
+    }
+
+    function getAdditionalFeedPrecision() external pure returns (uint256) {
+        return ADDITIONAL_FEED_PRECISION;
+    }
+
+    function calculateHealthFactor(uint256 totalDscMinted, uint256 collateralValueInUsd)
+        external
+        pure
+        returns (uint256)
+    {
+        return _calculateHealthFactor(totalDscMinted, collateralValueInUsd);
     }
 
 }
