@@ -4,8 +4,6 @@ pragma solidity 0.8.19;
 import {AggregatorV3Interface} from "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
 
 /*
- * @title OracleLib
- * @author Patrick Collins
  * @notice This library is used to check the Chainlink Oracle for stale data.
  * If a price is stale, functions will revert, and render the DSCEngine unusable - this is by design.
  * We want the DSCEngine to freeze if prices become stale.
@@ -15,15 +13,14 @@ import {AggregatorV3Interface} from "@chainlink/contracts/src/v0.8/interfaces/Ag
 library OracleLib {
     error OracleLib__StalePrice();
 
-    uint256 private constant TIMEOUT = 3 hours;
+    uint256 private constant TIMEOUT = 3 hours; // 3 * 60 * 60 = 10800 secs
 
     function staleCheckLatestRoundData(AggregatorV3Interface chainlinkFeed)
         public
-        view
-        returns (uint80, int256, uint256, uint256, uint80)
-    {
-        (uint80 roundId, int256 answer, uint256 startedAt, uint256 updatedAt, uint80 answeredInRound) =
-            chainlinkFeed.latestRoundData();
+        view 
+        returns (uint80, int256, uint256, uint256, uint80) 
+    {   //same return value of the "latestRoundData" func() in aggregatorV3Interface
+        (uint80 roundId, int256 answer, uint256 startedAt, uint256 updatedAt, uint80 answeredInRound) = chainlinkFeed.latestRoundData();
 
         if (updatedAt == 0 || answeredInRound < roundId) {
             revert OracleLib__StalePrice();

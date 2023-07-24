@@ -13,6 +13,6 @@
 
 1. what are our invariants/properties?
 
-1. Some proper oracle use
-1. write more test
-1. Smart Contract Audit Preparations
+2. Some proper oracle use :white_check_mark: (via using the custom oraclelib we made to check if it is stale)
+3. write more test
+4. Smart Contract Audit Preparations
