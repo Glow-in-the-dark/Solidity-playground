@@ -4,4 +4,12 @@ out = "out"
 libs = ["lib"]
 remappings = ["@chainlink/contracts=lib/chainlink-brownie-contracts/contracts",'@openzeppelin=lib/openzeppelin-contracts']
 
+[invariant]
+runs = 128
+depth = 128
+#depths refers to number of calls in a single run
+fail_on_revert = false 
+# false = good for quick test
+# true = if this works, means everything works. 
+
 # See more config options https://github.com/foundry-rs/foundry/tree/master/config

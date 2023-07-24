@@ -1,0 +1,21 @@
+{
+  "abi": [],
+  "bytecode": {
+    "object": "0x",
+    "linkReferences": {}
+  },
+  "deployedBytecode": {
+    "object": "0x",
+    "linkReferences": {}
+  },
+  "ast": {
+    "absolutePath": "test/fuzz/OpenInvariantsTest.t.sol",
+    "id": 32076,
+    "exportedSymbols": {},
+    "nodeType": "SourceUnit",
+    "src": "2116:0:34",
+    "nodes": [],
+    "license": "MIT"
+  },
+  "id": 34
+}

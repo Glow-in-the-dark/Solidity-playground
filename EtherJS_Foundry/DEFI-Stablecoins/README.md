@@ -6,3 +6,13 @@
 3. collateral: Exogenous ( External ) - Other Crypto assets
    1. wETH
    2. wBTC
+
+- calculate heath factor function
+- set healthfactor id debt is 0
+- added a bunch of view function
+
+1. what are our invariants/properties?
+
+1. Some proper oracle use
+1. write more test
+1. Smart Contract Audit Preparations
