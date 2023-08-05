@@ -1,0 +1,20 @@
+{
+  "abi": [],
+  "bytecode": {
+    "object": "0x",
+    "linkReferences": {}
+  },
+  "deployedBytecode": {
+    "object": "0x",
+    "linkReferences": {}
+  },
+  "ast": {
+    "absolutePath": "script/UpgradeBox.s.sol",
+    "id": 41056,
+    "exportedSymbols": {},
+    "nodeType": "SourceUnit",
+    "src": "0:0:33",
+    "nodes": []
+  },
+  "id": 33
+}
