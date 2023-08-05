@@ -22,3 +22,6 @@
 [submodule "EtherJS_Foundry/DEFI-Stablecoins/lib/chainlink-brownie-contracts"]
 	path = EtherJS_Foundry/DEFI-Stablecoins/lib/chainlink-brownie-contracts
 	url = https://github.com/smartcontractkit/chainlink-brownie-contracts.git
+[submodule "EtherJS_Foundry/GovernanceDAO_via_erc20/lib/openzeppelin-contracts"]
+	path = EtherJS_Foundry/GovernanceDAO_via_erc20/lib/openzeppelin-contracts
+	url = https://github.com/openzeppelin/openzeppelin-contracts
